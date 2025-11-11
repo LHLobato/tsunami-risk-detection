@@ -14,8 +14,8 @@ df = pd.read_csv("../data_science/earthquakes_filtred.csv")
 good = np.load('good_idx.npy')
 bad = np.load('bad_idx.npy')
 diff = np.load('../data_science/difficult_negative_idx.npy')
-
-subset3 = df.loc[diff]
+difficult_idx_oversampled = np.tile(diff, 10) 
+subset3 = df.loc[difficult_idx_oversampled]
 subset1 = df.loc[good]
 subset2 = df.loc[bad]
 
@@ -51,7 +51,17 @@ auc = roc_auc_score(y_test, y_proba)
 LR_metrics['AUC'] = auc
 print(LR_metrics)
 
-clf_xgb = xgb.XGBClassifier(n_estimators=200, use_label_encoder=False, eval_metric='logloss')
+constraints = [
+    1,  
+    1, 
+    -1,
+    0,  
+    0,  
+    -1, 0,
+]
+n_features = X.shape[1]
+constraints_tuple = tuple(constraints + [0] * (n_features - len(constraints)))
+clf_xgb = xgb.XGBClassifier(n_estimators=200, use_label_encoder=False, eval_metric='logloss', monotone_constraints=constraints_tuple)
 clf_xgb.fit(X_train, y_train)
 
 y_pred_xgb = clf_xgb.predict(X_test)
