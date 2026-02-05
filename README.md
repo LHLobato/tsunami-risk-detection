@@ -28,7 +28,7 @@ The project is divided into two main components: the Flask API (which serves the
 
     Python 3.8+
 
-    A requirements.txt file (you can generate one with pip freeze > requirements.txt)
+    A requirements.txt file 
 
 
 
@@ -52,8 +52,6 @@ python app.py
 The terminal should display: Initializing Tsunami Detection API... Success, models loaded! and Running on http://0.0.0.0:5000/.
 
 3. Terminal 2: Run the Streamlit Interface
-
-This is the frontend that the user sees and interacts with.
 
 
 # Navigate to the frontend folder
